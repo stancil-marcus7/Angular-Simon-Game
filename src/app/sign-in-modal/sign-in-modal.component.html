@@ -1,0 +1,25 @@
+<button
+  (click)="onClick(true)"
+  class="cursor-pointer text-2xl font-['Games'] text-yellow-400"
+>
+  Sign In
+</button>
+
+<div
+  *ngIf="clicked"
+  class="bg-white p-8 w-2/5 absolute left-1/2 top-1/2 modal rounded-md z-20"
+>
+  <div class="flex justify-end">
+    <fa-icon size="2x" [icon]="faIcon"></fa-icon>
+  </div>
+
+  <mat-form-field appearance="fill" [floatLabel]="floatLabelControl.value">
+    <mat-label>Both a label and a placeholder</mat-label>
+    <input matInput placeholder="Simple placeholder" />
+  </mat-form-field>
+</div>
+
+<div
+  *ngIf="clicked"
+  class="fixed inset-0 bg-black bg-opacity-25 transition-opacity"
+></div>

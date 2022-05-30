@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selector';
 
 @Component({
   selector: 'app-play-button',
@@ -7,11 +9,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PlayButtonComponent implements OnInit {
   play: boolean = false;
-  constructor() {}
+  @Output() playStatusEmitter = new EventEmitter<boolean>();
+  level: number = 0;
+  gamePatterns$ = this.store.pipe(select(selectGamePatterns));
 
-  ngOnInit(): void {}
+  constructor(private store: Store) {}
 
-  public setPlay(value: boolean) {
-    this.play = value;
+  ngOnInit(): void {
+    this.gamePatterns$.subscribe((message) => {
+      this.level = message.level;
+    });
   }
 }

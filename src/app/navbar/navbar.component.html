@@ -1,13 +1,33 @@
 <div class="bg-indigo-900 shadow-lg">
-  <div class="flex justify-between w-3/4 mx-auto py-4 items-center">
+  <div
+    class="flex gap-4 sm:justify-between w-3/4 mx-auto py-4 items-center flex-col sm:flex-row"
+  >
     <div class="">
-      <span class="cursor-pointer text-5xl font-['Games'] text-yellow-400"
+      <span
+        class="cursor-pointer text-5xl font-['Games'] text-yellow-400 mx-auto sm:mx-0"
         >Simon Game</span
       >
     </div>
-    <div class="flex gap-4">
-      <app-sign-in-modal></app-sign-in-modal>
-      <button mat-raised-button>Scoreboard</button>
-    </div>
+    <ng-container *ngIf="addSideBarButton; else SideBarButton">
+      <div
+        class="flex flex-col sm:flex-row gap-6 text-center sm:text-left sm:mx-0"
+      >
+        <app-sign-in-modal></app-sign-in-modal>
+        <button class="text-2xl font-['Games'] text-yellow-400">
+          Scoreboard
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #SideBarButton>
+      <div class="flex justify-center">
+        <fa-icon
+          (click)="onClickSideBar()"
+          class="cursor-pointer text-yellow-400"
+          size="2x"
+          [icon]="faBarsIcon"
+        ></fa-icon>
+      </div>
+    </ng-template>
   </div>
 </div>
+<app-sidebar [isOpen]="isOpen"></app-sidebar>

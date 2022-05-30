@@ -7,16 +7,55 @@
 
 <div
   *ngIf="clicked"
-  class="bg-white p-8 w-2/5 absolute left-1/2 top-1/2 modal rounded-md z-20"
+  class="bg-white p-8 sm:w-2/5 w-full absolute left-1/2 top-1/2 modal rounded-md z-20 flex flex-col gap-4 grid sm:justify-center"
 >
   <div class="flex justify-end">
-    <fa-icon size="2x" [icon]="faIcon"></fa-icon>
+    <fa-icon
+      class="cursor-pointer"
+      (click)="onClick(false)"
+      size="2x"
+      [icon]="faIcon"
+    ></fa-icon>
   </div>
 
-  <mat-form-field appearance="fill" [floatLabel]="floatLabelControl.value">
-    <mat-label>Both a label and a placeholder</mat-label>
-    <input matInput placeholder="Simple placeholder" />
-  </mat-form-field>
+  <h1 class="font-bold text-2xl">Sign In To Track Your Score!</h1>
+  <form [formGroup]="signInForm">
+    <div class="flex flex-col gap-4">
+      <div class="grid">
+        <label for="Email">Email</label>
+        <input
+          placeholder="Email"
+          formControlName="email"
+          type="text"
+          class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+        />
+      </div>
+      <div class="grid">
+        <span
+          class="text-rose-600"
+          *ngIf="submitClicked && signInForm.controls['password'].errors"
+          >Password is required to sign in</span
+        >
+        <label for="Password">Password</label>
+        <input
+          placeholder="Password"
+          formControlName="password"
+          type="text"
+          class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+        />
+      </div>
+      <button
+        (click)="onSubmitClicked()"
+        class="bg-indigo-800 hover:bg-indigo-900 p-4 text-white rounded-lg shadow-sm"
+      >
+        Submit
+      </button>
+      <span
+        class="text-blue-600 hover:decoration-solid hover:cursor-pointer mx-auto"
+        >Don't have an account? Sign Up!</span
+      >
+    </div>
+  </form>
 </div>
 
 <div

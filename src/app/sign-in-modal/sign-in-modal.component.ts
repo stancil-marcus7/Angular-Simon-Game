@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -8,16 +18,21 @@ import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./sign-in-modal.component.css'],
 })
 export class SignInModalComponent implements OnInit {
-  options: FormGroup;
-  hideRequiredControl = new FormControl(false);
-  floatLabelControl = new FormControl('auto');
+  signInForm: FormGroup;
   clicked: boolean = false;
   faIcon = faXmarkCircle;
+  submitClicked: boolean = false;
 
   constructor(fb: FormBuilder) {
-    this.options = fb.group({
-      hideRequired: this.hideRequiredControl,
-      floatLabel: this.floatLabelControl,
+    this.signInForm = fb.group({
+      email: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(7)]),
+      ],
+      password: [
+        '',
+        Validators.compose([Validators.required, Validators.min(7)]),
+      ],
     });
   }
 
@@ -25,5 +40,9 @@ export class SignInModalComponent implements OnInit {
 
   onClick(val: boolean): void {
     this.clicked = val;
+  }
+
+  onSubmitClicked(): void {
+    this.submitClicked = true;
   }
 }

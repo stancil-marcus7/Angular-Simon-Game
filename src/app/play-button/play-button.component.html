@@ -1,13 +1,19 @@
-<div class="py-8">
-  <div
-    class="text-center my-8 text-yellow-400 m-0 font-['Games'] text-8xl mx-auto"
-  >
-    <ng-container *ngIf="!play; else DoYourBest">
-      <div class="cursor-pointer inline" (click)="setPlay(true)">Play</div>
+<div class="mt-8">
+  <div class="text-center text-yellow-400 m-0 font-['Games'] mx-auto">
+    <ng-container *ngIf="!level; else DoYourBest">
+      <button class="cursor-pointer inline sm:text-8xl text-4xl my-4">
+        Play
+      </button>
     </ng-container>
     <ng-template #DoYourBest>
-      <div class="cursor-pointer inline" (click)="setPlay(true)">
-        Do Your Best!
+      <div class="flex flex-col gap-4">
+        <button
+          [disabled]="level"
+          class="cursor-pointer inline sm:text-8xl text-4xl"
+        >
+          Do Your Best!
+        </button>
+        <div class="text-6xl">Level {{ level }}</div>
       </div>
     </ng-template>
   </div>

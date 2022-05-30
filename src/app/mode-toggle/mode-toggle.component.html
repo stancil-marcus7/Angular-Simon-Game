@@ -1,0 +1,15 @@
+<div class="flex justify-center sm:text-4xl text-xl">
+  <div class="form-check form-switch flex gap-4">
+    <input
+      class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+      type="checkbox"
+      role="switch"
+      id="flexSwitchCheckDefault"
+      (click)="togglePlayMode()"
+      [checked]="strictMode"
+    />
+    <label class="form-check-label inline-block" for="flexSwitchCheckDefault"
+      >Strict Mode</label
+    >
+  </div>
+</div>

@@ -1,34 +1,29 @@
 <div
-  class="bg-indigo-900 font-['Games'] text-yellow-400 h-full shadow-md px-1 w-60 absolute"
-  [ngClass]="isOpen ? 'sideBarSlideIn' : 'sideBarSlideOut'"
+  *ngIf="!!isOpen"
+  class="bg-indigo-900 font-['Games'] text-yellow-400 h-full shadow-md px-1 w-60 absolute {{
+    isOpen
+  }}"
 >
   <ul class="relative">
-    <li class="relative">
-      <a
-        class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-        href="#!"
+    <li (click)="onOpenSignInModal()" class="relative cursor-pointer">
+      <div
+        class="flex gap-4 items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
         data-mdb-ripple="true"
         data-mdb-ripple-color="dark"
-        >Sidenav link 1</a
       >
+        <div class="">Sign In</div>
+        <div class=""><fa-icon [icon]="faUserIcon"></fa-icon></div>
+      </div>
     </li>
-    <li class="relative">
-      <a
-        class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-        href="#!"
+    <li class="relative cursor-pointer">
+      <div
+        class="flex gap-4 items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
         data-mdb-ripple="true"
         data-mdb-ripple-color="dark"
-        >Sidenav link 2</a
       >
-    </li>
-    <li class="relative">
-      <a
-        class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-        href="#!"
-        data-mdb-ripple="true"
-        data-mdb-ripple-color="dark"
-        >Sidenav link 2</a
-      >
+        <div class="">Scoreboard</div>
+        <div class=""><fa-icon [icon]="faTableIcon"></fa-icon></div>
+      </div>
     </li>
   </ul>
 </div>

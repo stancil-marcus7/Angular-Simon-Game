@@ -1,63 +1,128 @@
-<button
-  (click)="onClick(true)"
-  class="cursor-pointer text-2xl font-['Games'] text-yellow-400"
->
-  Sign In
-</button>
-
 <div
-  *ngIf="clicked"
-  class="bg-white p-8 sm:w-2/5 w-full absolute left-1/2 top-1/2 modal rounded-md z-20 flex flex-col gap-4 grid sm:justify-center"
+  *ngIf="clicked.length"
+  class="bg-white p-8 sm:w-[400px] w-full absolute left-1/2 top-1/2 modal modal-body rounded-md z-20 flex flex-col gap-4 grid {{
+    clicked
+  }}"
 >
   <div class="flex justify-end">
     <fa-icon
       class="cursor-pointer"
-      (click)="onClick(false)"
+      (click)="onClick()"
       size="2x"
       [icon]="faIcon"
     ></fa-icon>
   </div>
-
-  <h1 class="font-bold text-2xl">Sign In To Track Your Score!</h1>
-  <form [formGroup]="signInForm">
-    <div class="flex flex-col gap-4">
-      <div class="grid">
-        <label for="Email">Email</label>
-        <input
-          placeholder="Email"
-          formControlName="email"
-          type="text"
-          class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
-        />
-      </div>
-      <div class="grid">
-        <span
-          class="text-rose-600"
-          *ngIf="submitClicked && signInForm.controls['password'].errors"
-          >Password is required to sign in</span
+  <ng-container *ngIf="!signUp; else SignUp">
+    <h1 class="font-bold text-2xl">Sign In To Track Your Score!</h1>
+    <form [formGroup]="signInForm">
+      <div class="flex flex-col gap-4">
+        <div class="grid">
+          <label for="Email">Email</label>
+          <input
+            placeholder="Email"
+            formControlName="email"
+            type="text"
+            class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+          />
+        </div>
+        <div class="grid">
+          <span class="text-rose-600" *ngIf="signInEmailPassword"
+            >Password is required to sign in</span
+          >
+          <label for="Password">Password</label>
+          <input
+            placeholder="Password"
+            formControlName="password"
+            [type]="hideSignInPassword ? 'password' : 'text'"
+            class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+          />
+          <div class="flex justify-end">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                (click)="toggleHideSignInPassword()"
+                checked
+              />
+              <label
+                class="form-check-label inline-block text-gray-800"
+                for="flexSwitchCheckDefault"
+                >Hide Password</label
+              >
+            </div>
+          </div>
+        </div>
+        <button
+          (click)="onSubmitClicked()"
+          class="bg-indigo-800 hover:bg-indigo-900 p-4 text-white rounded-lg shadow-sm"
         >
-        <label for="Password">Password</label>
-        <input
-          placeholder="Password"
-          formControlName="password"
-          type="text"
-          class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
-        />
+          Submit
+        </button>
+        <span
+          (click)="toggleSignInForm()"
+          class="text-blue-600 hover:decoration-solid hover:cursor-pointer mx-auto"
+          >Don't have an account? Sign Up!</span
+        >
       </div>
-      <button
-        (click)="onSubmitClicked()"
-        class="bg-indigo-800 hover:bg-indigo-900 p-4 text-white rounded-lg shadow-sm"
-      >
-        Submit
-      </button>
-      <span
-        class="text-blue-600 hover:decoration-solid hover:cursor-pointer mx-auto"
-        >Don't have an account? Sign Up!</span
-      >
-    </div>
-  </form>
-</div>
+    </form>
+  </ng-container>
 
+  <ng-template #SignUp>
+    <h1 class="font-bold text-2xl">Sign Up!</h1>
+    <form [formGroup]="signUpForm">
+      <div class="flex flex-col gap-4">
+        <div class="grid">
+          <label for="Email">Email</label>
+          <input
+            placeholder="Email"
+            formControlName="email"
+            type="text"
+            class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+          />
+        </div>
+        <div class="grid">
+          <span
+            class="text-rose-600"
+            *ngIf="submitClicked && signUpForm.controls['password'].errors"
+            >Password does not match requirements</span
+          >
+          <label for="Password">Password</label>
+          <input
+            placeholder="Password"
+            formControlName="password"
+            type="text"
+            class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+          />
+        </div>
+        <div class="grid">
+          <span class="text-rose-600" *ngIf="signUpModalReTypePasswordErrors"
+            >This password does not match the password above</span
+          >
+          <label for="Password"> Re-type Password</label>
+          <input
+            placeholder="Password"
+            formControlName="reTypePassword"
+            type="text"
+            class="p-2 rounded-md border border-gray-700 focus:outline focus:outline-4 focus:outline-indigo-500"
+          />
+        </div>
+        <button
+          (click)="onSubmitClicked()"
+          class="bg-indigo-800 hover:bg-indigo-900 p-4 text-white rounded-lg shadow-sm"
+        >
+          Submit
+        </button>
+        <span
+          (click)="toggleSignInForm()"
+          class="text-blue-600 hover:decoration-solid hover:cursor-pointer mx-auto"
+          >Already have an account? Sign Up!</span
+        >
+      </div>
+    </form>
+  </ng-template>
+</div>
 <div
   *ngIf="clicked"
   class="fixed inset-0 bg-black bg-opacity-25 transition-opacity"

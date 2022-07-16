@@ -1,7 +1,5 @@
-import { toggleStrictMode } from './../gamePattern/actions/gamePattern.action';
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selector';
+import { GamePatternService } from '../services/behavior-subject-services/gamePattern.service';
 
 @Component({
   selector: 'app-mode-toggle',
@@ -10,17 +8,17 @@ import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selecto
 })
 export class ModeToggleComponent implements OnInit {
   strictMode: boolean = false;
-  gamePattern$ = this.store.pipe(select(selectGamePatterns));
 
-  constructor(private store: Store) {}
+  constructor(private gamePatternService: GamePatternService) {}
 
   ngOnInit(): void {
-    this.gamePattern$.subscribe((message) => {
+    this.gamePatternService.data.subscribe((message) => {
       this.strictMode = message.strictMode;
     });
   }
 
   togglePlayMode() {
-    this.store.dispatch(toggleStrictMode());
+    this.strictMode = !this.strictMode;
+    this.gamePatternService.toggleStrictMode(this.strictMode);
   }
 }

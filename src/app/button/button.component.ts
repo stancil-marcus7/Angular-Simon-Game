@@ -1,3 +1,4 @@
+import { GamePatternService } from './../services/behavior-subject-services/gamePattern.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,8 +8,6 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selector';
 
 @Component({
   selector: 'app-button',
@@ -17,17 +16,16 @@ import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selecto
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent implements OnInit {
-  constructor(private store: Store) {}
+  constructor(private gamePatternService: GamePatternService) {}
 
   @Input() color: string = '';
   _disabled: boolean = true;
   @Output() colorClicked = new EventEmitter<string>();
   _selected: string = '';
-  gamePatterns$ = this.store.pipe(select(selectGamePatterns));
   gamePattern: string[] = [];
 
   ngOnInit(): void {
-    this.gamePatterns$.subscribe((message) => {
+    this.gamePatternService.data.subscribe((message) => {
       this.gamePattern = message.gamePattern;
     });
   }
@@ -52,9 +50,5 @@ export class ButtonComponent implements OnInit {
 
   getSelectedColorStatus() {
     return this._selected === this.color;
-  }
-
-  sendColorClicked() {
-    this.colorClicked.emit(this.color);
   }
 }

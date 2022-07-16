@@ -1,3 +1,6 @@
+import { GamePatternService } from './services/behavior-subject-services/gamePattern.service';
+import { UserService } from './services/behavior-subject-services/user.service';
+import { OpenSignInModalService } from './services/behavior-subject-services/sign-in.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +17,8 @@ import { gamePatternReducer } from './gamePattern/reducers/gamePattern.reducer';
 import { ModeToggleComponent } from './mode-toggle/mode-toggle.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { HttpClientModule } from '@angular/common/http';
+import { UserPopoverComponent } from './user-popover/user-popover.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SignInModalComponent,
     ModeToggleComponent,
     SidebarComponent,
+    UserPopoverComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,9 +39,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
+    HttpClientModule,
     StoreModule.forRoot({ gamePatterns: gamePatternReducer }),
   ],
-  providers: [],
+  providers: [OpenSignInModalService, UserService, GamePatternService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

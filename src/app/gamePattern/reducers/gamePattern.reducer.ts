@@ -7,7 +7,7 @@ import {
   emptyUserPattern,
 } from '../actions/gamePattern.action';
 import { createReducer, on } from '@ngrx/store';
-import { GamePattern } from 'src/app/interface/gamePattern';
+import { GamePattern } from 'src/interfaces/gamePattern';
 
 export const initialState: GamePattern = {
   gamePattern: [],

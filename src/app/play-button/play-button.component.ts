@@ -1,3 +1,4 @@
+import { GamePatternService } from './../services/behavior-subject-services/gamePattern.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { selectGamePatterns } from '../gamePattern/selectors/gamePattern.selector';
@@ -11,12 +12,11 @@ export class PlayButtonComponent implements OnInit {
   play: boolean = false;
   @Output() playStatusEmitter = new EventEmitter<boolean>();
   level: number = 0;
-  gamePatterns$ = this.store.pipe(select(selectGamePatterns));
 
-  constructor(private store: Store) {}
+  constructor(private gamePatternService: GamePatternService) {}
 
   ngOnInit(): void {
-    this.gamePatterns$.subscribe((message) => {
+    this.gamePatternService.data.subscribe((message) => {
       this.level = message.level;
     });
   }

@@ -1,7 +1,15 @@
+import { UserService } from './../services/behavior-subject-services/user.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faBars, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  faBars,
+  faUser,
+  faTable,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
+import { User } from 'src/interfaces/user.interface';
+import { OpenSignInModalService } from '../services/behavior-subject-services//sign-in.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +18,23 @@ import * as _ from 'lodash';
 })
 export class NavbarComponent implements OnInit {
   faBarsIcon: IconDefinition = faBars;
+  faUserIcon: IconDefinition = faUser;
+  faTableIcon: IconDefinition = faTable;
   addSideBarButton: boolean = false;
-  isOpen: boolean = false;
-  @Output() isOpenEmitter = new EventEmitter<boolean>();
-  constructor(public breakpointObserver: BreakpointObserver) {}
+  isOpen: string = '';
+  user: User = {
+    username: '',
+    strictScore: 0,
+    regularScore: 0,
+  };
+  userSubscription: any = null;
+
+  @Output() isOpenEmitter = new EventEmitter<string>();
+  constructor(
+    public breakpointObserver: BreakpointObserver,
+    private signInService: OpenSignInModalService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.breakpointObserver
@@ -25,13 +46,25 @@ export class NavbarComponent implements OnInit {
           this.addSideBarButton = false;
         }
       });
+
+    this.userSubscription = this.userService.data.subscribe((message) => {
+      this.user = message;
+    });
   }
 
   onClickSideBar(): void {
-    _.delay(() => (this.isOpen = !this.isOpen), 250);
+    if (this.isOpen === 'sideBarSlideOut' || this.isOpen === '') {
+      _.delay(() => {
+        this.isOpen = 'sideBarSlideIn';
+      }, 250);
+    } else {
+      _.delay(() => {
+        this.isOpen = 'sideBarSlideOut';
+      }, 250);
+    }
   }
 
-  sendIsOpenStatus() {
-    this.isOpenEmitter.emit(this.isOpen);
+  openSignInModal(): void {
+    this.signInService.openSignInModal('slideIn');
   }
 }

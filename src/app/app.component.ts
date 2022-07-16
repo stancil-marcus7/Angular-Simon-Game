@@ -1,21 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  SimpleChanges,
-} from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { interval, take, timer } from 'rxjs';
-import {
-  addNewColorToGamePattern,
-  addNewColorToUserPattern,
-  emptyUserPattern,
-  increaseLevel,
-  resetGame,
-} from './gamePattern/actions/gamePattern.action';
-import { selectGamePatterns } from './gamePattern/selectors/gamePattern.selector';
+import { Component } from '@angular/core';
+import { interval, take } from 'rxjs';
 import * as _ from 'lodash';
 import 'tw-elements';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { GamePatternService } from './services/behavior-subject-services/gamePattern.service';
+import { UserService } from './services/behavior-subject-services/user.service';
 
 const colorsArray: string[] = ['red', 'blue', 'green', 'yellow'];
 
@@ -27,25 +15,38 @@ const colorsArray: string[] = ['red', 'blue', 'green', 'yellow'];
 export class AppComponent {
   title: string = 'simon-game';
   playStatus: boolean = true;
-  gamePatterns$ = this.store.pipe(select(selectGamePatterns));
   userPattern: string[] = [];
   gamePattern: string[] = [];
   strictMode: boolean = false;
   selectedColor: string = '';
   addDropdownButton: boolean = false;
+  userRegularScore: number = 0;
+  userStrictScore: number = 0;
+  username: string = '';
 
-  constructor(private store: Store) {}
+  constructor(
+    private gamePatternService: GamePatternService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.gamePatterns$.subscribe((message) => {
+    this.gamePatternService.data.subscribe((message) => {
       this.userPattern = message.userPattern;
       this.gamePattern = message.gamePattern;
       this.strictMode = message.strictMode;
     });
+
+    this.userService.data.subscribe((message) => {
+      if (message.username) {
+        this.username = message.username;
+        this.userRegularScore = message.regularScore;
+        this.userStrictScore = message.strictScore;
+      }
+    });
   }
 
   addNewColorToUserPattern(color: string): void {
-    this.store.dispatch(addNewColorToUserPattern({ color }));
+    this.gamePatternService.updateUserPattern(color);
     this.checkAnswer();
   }
 
@@ -54,8 +55,8 @@ export class AppComponent {
     const correct = this.comparePatterns();
     if (lengthIsSame) {
       if (correct) {
-        this.store.dispatch(increaseLevel());
-        this.store.dispatch(emptyUserPattern());
+        this.addLevel();
+        this.gamePatternService.emptyUserPattern();
         this.addNewColorToGamePattern();
         this.showPattern();
       } else {
@@ -79,8 +80,9 @@ export class AppComponent {
   }
 
   handleWrongAnswer() {
-    this.store.dispatch(emptyUserPattern());
+    this.gamePatternService.emptyUserPattern();
     if (this.strictMode) {
+      console.log('this.strictMode', this.strictMode);
       this.resetGame();
     } else {
       this.showPattern();
@@ -90,18 +92,19 @@ export class AppComponent {
   initializeGame(): void {
     this.playStatus = false;
     this.addNewColorToGamePattern();
-    this.store.dispatch(increaseLevel());
+    this.gamePatternService.updateLevel();
     this.showPattern();
+    console.log('gamePattern', this.gamePattern);
   }
 
   resetGame(): void {
-    this.store.dispatch(resetGame());
+    this.gamePatternService.resetGame();
   }
 
   addNewColorToGamePattern() {
     const colorNumber = Math.floor(Math.random() * 4);
     const color = colorsArray[colorNumber];
-    this.store.dispatch(addNewColorToGamePattern({ color }));
+    this.gamePatternService.updateGamePattern(color);
   }
 
   comparePatterns(): boolean {
@@ -111,7 +114,32 @@ export class AppComponent {
   }
 
   addLevel() {
-    this.store.dispatch(increaseLevel());
+    this.gamePatternService.updateLevel();
+    let currentScore: number = this.strictMode
+      ? this.userStrictScore
+      : this.userRegularScore;
+
+    console.log(
+      'this.gamePatternService.returnCurrentValue().level',
+      this.gamePatternService.returnCurrentValue().level
+    );
+    if (this.username) {
+      if (
+        this.gamePatternService.returnCurrentValue().level > currentScore &&
+        !this.strictMode
+      ) {
+        this.userService.updateRegularScore(
+          this.gamePatternService.returnCurrentValue().level
+        );
+      } else if (
+        this.gamePatternService.returnCurrentValue().level > currentScore &&
+        this.strictMode
+      ) {
+        this.userService.updateStrictScore(
+          this.gamePatternService.returnCurrentValue().level
+        );
+      }
+    }
   }
 
   showPattern() {
@@ -127,6 +155,7 @@ export class AppComponent {
           this.selectedColor = '';
         }, 300);
       } else {
+        console.log('disabled');
         this.selectedColor = '';
         this.playStatus = false;
       }

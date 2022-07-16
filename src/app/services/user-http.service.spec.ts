@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GamePatternService } from './game-pattern.service';
+import { UserHTTPService } from './user-http.service';
 
-describe('GamePatternService', () => {
-  let service: GamePatternService;
+describe('UserService', () => {
+  let service: UserHTTPService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GamePatternService);
+    service = TestBed.inject(UserHTTPService);
   });
 
   it('should be created', () => {

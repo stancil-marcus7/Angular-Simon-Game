@@ -1,48 +1,51 @@
-<app-navbar></app-navbar>
-<app-sign-in-modal></app-sign-in-modal>
-<div
-  class="flex flex-col gap-4 font-['Games'] text-yellow-400 justify-center my-4"
->
-  <app-play-button (click)="initializeGame()"></app-play-button>
-  <app-mode-toggle></app-mode-toggle>
-  <button class="sm:text-4xl text-2xl" (click)="resetGame()">Reset</button>
-</div>
-<div class="w-3/4 mx-auto bg-indigo-900 rounded-lg p-8 shadow-md">
-  <div class="grid sm:grid-rows-3 gap-4">
-    <div class="flex justify-center">
-      <app-button
-        [disabled]="playStatus"
-        (click)="addNewColorToUserPattern('red')"
-        color="red"
-        [selected]="selectedColor"
-      ></app-button>
-      <p></p>
-    </div>
-    <div class="grid sm:grid-flow-col justify-center sm:gap-24 gap-4">
-      <div class="">
+<div class="bg-indigo-800">
+  <app-navbar></app-navbar>
+  <app-sign-in-modal></app-sign-in-modal>
+  <app-scores-modal></app-scores-modal>
+  <div
+    class="flex flex-col gap-4 font-['Games'] text-yellow-400 justify-center my-4"
+  >
+    <app-play-button (click)="initializeGame()"></app-play-button>
+    <app-mode-toggle></app-mode-toggle>
+    <button class="sm:text-4xl text-2xl" (click)="resetGame()">Reset</button>
+  </div>
+  <div class="w-3/4 mx-auto bg-indigo-900 rounded-lg p-8 shadow-md">
+    <div class="grid sm:grid-rows-3 gap-4">
+      <div class="flex justify-center">
         <app-button
           [disabled]="playStatus"
-          (click)="addNewColorToUserPattern('blue')"
-          color="blue"
+          (click)="addNewColorToUserPattern('red')"
+          color="red"
+          [selected]="selectedColor"
+        ></app-button>
+        <p></p>
+      </div>
+      <div class="grid sm:grid-flow-col justify-center sm:gap-24 gap-4">
+        <div class="">
+          <app-button
+            [disabled]="playStatus"
+            (click)="addNewColorToUserPattern('blue')"
+            color="blue"
+            [selected]="selectedColor"
+          ></app-button>
+        </div>
+        <div class="">
+          <app-button
+            [disabled]="playStatus"
+            (click)="addNewColorToUserPattern('green')"
+            color="green"
+            [selected]="selectedColor"
+          ></app-button>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <app-button
+          [disabled]="playStatus"
+          (click)="addNewColorToUserPattern('yellow')"
+          color="yellow"
           [selected]="selectedColor"
         ></app-button>
       </div>
-      <div class="">
-        <app-button
-          [disabled]="playStatus"
-          (click)="addNewColorToUserPattern('green')"
-          color="green"
-          [selected]="selectedColor"
-        ></app-button>
-      </div>
-    </div>
-    <div class="flex justify-center">
-      <app-button
-        [disabled]="playStatus"
-        (click)="addNewColorToUserPattern('yellow')"
-        color="yellow"
-        [selected]="selectedColor"
-      ></app-button>
     </div>
   </div>
 </div>

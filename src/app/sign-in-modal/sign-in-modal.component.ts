@@ -1,17 +1,11 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
-import { OpenSignInModalService } from '../services/behavior-subject-services/sign-in.service';
+import { SignInModalService } from '../services/behavior-subject-services/sign-in-modal.service';
 import { UserHTTPService } from '../services/user-http.service';
-import { UserService } from '../services/behavior-subject-services/user.service';
 import { ComparePassword } from 'src/custom-validators/sign-in-modal-validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sign-in-modal',
@@ -35,9 +29,8 @@ export class SignInModalComponent implements OnInit, OnDestroy {
 
   constructor(
     fb: FormBuilder,
-    private signInService: OpenSignInModalService,
-    private userHttpService: UserHTTPService,
-    private userService: UserService
+    private signInService: SignInModalService,
+    private userHttpService: UserHTTPService
   ) {
     this.signInForm = fb.group({
       email: [
@@ -90,23 +83,20 @@ export class SignInModalComponent implements OnInit, OnDestroy {
 
   async onSubmitClicked(): Promise<void> {
     this.submitClicked = true;
-    this.userHttpService
-      .loginUser({
+    if (!this.signUp) {
+      this.userHttpService.getToken({
         username: this.signInForm.controls['email'].value,
         password: this.signInForm.controls['password'].value,
-      })
-      ?.subscribe((user) => {
-        console.log(user);
-        this.userService.setUser(user);
-        this.signInService.openSignInModal('slideOut');
-        _.delay(() => {
-          this.signInService.openSignInModal('');
-        }, 500);
       });
-
-    console.log(this.signInForm.controls['password'].errors);
-    console.log(this.signUpForm.controls['password'].errors);
-    console.log(this.signUpForm.controls['reTypePassword'].errors);
+      console.log(this.signInForm.controls['password'].errors);
+      console.log(this.signUpForm.controls['password'].errors);
+      console.log(this.signUpForm.controls['reTypePassword'].errors);
+    } else {
+      this.userHttpService.createUser({
+        username: this.signUpForm.controls['email'].value,
+        password: this.signUpForm.controls['password'].value,
+      });
+    }
   }
 
   toggleSignInForm(): void {

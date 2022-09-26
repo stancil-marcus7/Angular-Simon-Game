@@ -1,5 +1,5 @@
 import { initialState } from './../../gamePattern/reducers/gamePattern.reducer';
-import { GamePattern } from './../../../interfaces/gamePattern';
+import { GamePattern } from '../../interfaces/gamePattern';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, pluck, Subscription } from 'rxjs';
 
@@ -71,7 +71,6 @@ export class GamePatternService {
   }
 
   resetGame() {
-    const currentValue = this.returnCurrentValue();
     this.dataSource.next(this.initialState);
   }
 

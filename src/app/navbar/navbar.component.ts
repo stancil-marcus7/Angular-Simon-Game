@@ -1,15 +1,19 @@
+import { UserPopoverService } from './../services/behavior-subject-services/user-popover-service';
 import { UserService } from './../services/behavior-subject-services/user.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   faBars,
   faUser,
   faTable,
   IconDefinition,
+  faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
-import { User } from 'src/interfaces/user.interface';
-import { OpenSignInModalService } from '../services/behavior-subject-services//sign-in.service';
+import { User } from 'src/app/interfaces/user.interface';
+import { SignInModalService } from '../services/behavior-subject-services/sign-in-modal.service';
+import { GameScoresModalService } from '../services/behavior-subject-services/game-scores.service';
+import { UserHTTPService } from '../services/user-http.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +24,7 @@ export class NavbarComponent implements OnInit {
   faBarsIcon: IconDefinition = faBars;
   faUserIcon: IconDefinition = faUser;
   faTableIcon: IconDefinition = faTable;
+  faLogoutIcon: IconDefinition = faArrowRightFromBracket;
   addSideBarButton: boolean = false;
   isOpen: string = '';
   user: User = {
@@ -32,8 +37,10 @@ export class NavbarComponent implements OnInit {
   @Output() isOpenEmitter = new EventEmitter<string>();
   constructor(
     public breakpointObserver: BreakpointObserver,
-    private signInService: OpenSignInModalService,
-    private userService: UserService
+    private signInService: SignInModalService,
+    private userService: UserService,
+    private gameScoresModalService: GameScoresModalService,
+    private userPopoverService: UserPopoverService
   ) {}
 
   ngOnInit(): void {
@@ -66,5 +73,21 @@ export class NavbarComponent implements OnInit {
 
   openSignInModal(): void {
     this.signInService.openSignInModal('slideIn');
+  }
+
+  openGameScoresModalState(): void {
+    this.gameScoresModalService.setGameScoresModalState('slideIn');
+  }
+
+  openUserPopover(): void {
+    this.userPopoverService.openUserPopover(true);
+  }
+
+  onLogout(): void {
+    localStorage.setItem('access_token', '');
+    localStorage.setItem('refresh_token', '');
+    localStorage.setItem('access_token_expiration', '');
+    localStorage.setItem('refresh_token_expiration', '');
+    this.userService.setUser({ username: '', strictScore: 0, regularScore: 0 });
   }
 }

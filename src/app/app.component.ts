@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { BackgroundColorsService } from './services/behavior-subject-services/backgroundColors.services';
+import { BackgroundColors } from './interfaces/backgroundColors';
+import { UserHTTPService } from './services/user-http.service';
+import { Component, OnInit } from '@angular/core';
 import { interval, take } from 'rxjs';
 import * as _ from 'lodash';
 import 'tw-elements';
@@ -12,7 +15,7 @@ const colorsArray: string[] = ['red', 'blue', 'green', 'yellow'];
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title: string = 'simon-game';
   playStatus: boolean = true;
   userPattern: string[] = [];
@@ -23,13 +26,23 @@ export class AppComponent {
   userRegularScore: number = 0;
   userStrictScore: number = 0;
   username: string = '';
+  backgroundColor: string = '';
 
   constructor(
     private gamePatternService: GamePatternService,
-    private userService: UserService
+    private userService: UserService,
+    private userHttpService: UserHTTPService,
+    private backgroundColorsService: BackgroundColorsService
   ) {}
 
   ngOnInit(): void {
+    const bearerToken = localStorage.getItem('access_token');
+    if (bearerToken) {
+      console.log('bearerToken', bearerToken);
+      this.userHttpService
+        .getUser()
+        .subscribe((user) => this.userService.setUser(user));
+    }
     this.gamePatternService.data.subscribe((message) => {
       this.userPattern = message.userPattern;
       this.gamePattern = message.gamePattern;
@@ -42,6 +55,10 @@ export class AppComponent {
         this.userRegularScore = message.regularScore;
         this.userStrictScore = message.strictScore;
       }
+    });
+
+    this.backgroundColorsService.data.subscribe((message) => {
+      this.backgroundColor = message.mainBackgroundColor;
     });
   }
 
@@ -118,24 +135,19 @@ export class AppComponent {
     let currentScore: number = this.strictMode
       ? this.userStrictScore
       : this.userRegularScore;
-
-    console.log(
-      'this.gamePatternService.returnCurrentValue().level',
-      this.gamePatternService.returnCurrentValue().level
-    );
     if (this.username) {
       if (
         this.gamePatternService.returnCurrentValue().level > currentScore &&
         !this.strictMode
       ) {
-        this.userService.updateRegularScore(
+        this.userHttpService.updateRegularScore(
           this.gamePatternService.returnCurrentValue().level
         );
       } else if (
         this.gamePatternService.returnCurrentValue().level > currentScore &&
         this.strictMode
       ) {
-        this.userService.updateStrictScore(
+        this.userHttpService.updateStrictScore(
           this.gamePatternService.returnCurrentValue().level
         );
       }

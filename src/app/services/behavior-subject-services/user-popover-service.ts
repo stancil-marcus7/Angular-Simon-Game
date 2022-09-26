@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
-export class OpenSignInModalService {
-  private dataSource = new BehaviorSubject<string>('');
+export class UserPopoverService {
+  private dataSource = new BehaviorSubject<boolean>(false);
   data = this.dataSource.asObservable();
 
   constructor() {}
 
-  openSignInModal(val: string) {
+  openUserPopover(val: boolean) {
     this.dataSource.next(val);
   }
 }

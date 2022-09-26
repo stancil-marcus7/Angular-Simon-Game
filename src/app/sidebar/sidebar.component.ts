@@ -1,10 +1,15 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   faUser,
   IconDefinition,
   faTable,
 } from '@fortawesome/free-solid-svg-icons';
-import { OpenSignInModalService } from '../services/behavior-subject-services/sign-in.service';
+import { User } from '../interfaces/user.interface';
+import { GameScoresModalService } from '../services/behavior-subject-services/game-scores.service';
+import { SignInModalService } from '../services/behavior-subject-services/sign-in-modal.service';
+import { UserPopoverService } from '../services/behavior-subject-services/user-popover-service';
+import { UserService } from '../services/behavior-subject-services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,16 +19,44 @@ import { OpenSignInModalService } from '../services/behavior-subject-services/si
 export class SidebarComponent implements OnInit {
   faUserIcon: IconDefinition = faUser;
   faTableIcon: IconDefinition = faTable;
-  @Input() _isOpen: string = '';
+  _isOpen: string = '';
   subscription: any;
   clicked: string = '';
+  userSubscription: any = null;
+  showStats: boolean = false;
 
-  constructor(private signInService: OpenSignInModalService) {}
+  user: User = {
+    username: '',
+    strictScore: 0,
+    regularScore: 0,
+  };
+
+  constructor(
+    private signInService: SignInModalService,
+    public breakpointObserver: BreakpointObserver,
+    private userService: UserService,
+    private userPopoverService: UserPopoverService,
+    private gameScoresModalService: GameScoresModalService
+  ) {}
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(min-width: 640px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this._isOpen = 'sideBarSlideOut';
+        }
+      });
     this.subscription = this.signInService.data.subscribe((message: string) => {
       this.clicked = message;
     });
+    this.userSubscription = this.userService.data.subscribe((message) => {
+      this.user = message;
+    });
+  }
+
+  openGameScoresModalState() {
+    this.gameScoresModalService.setGameScoresModalState('slideIn');
   }
 
   onOpenSignInModal(): void {
@@ -37,5 +70,9 @@ export class SidebarComponent implements OnInit {
 
   public get isOpen(): string {
     return this._isOpen;
+  }
+
+  openPopover() {
+    this.userPopoverService.openUserPopover(true);
   }
 }

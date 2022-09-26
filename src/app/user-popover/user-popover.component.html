@@ -1,17 +1,21 @@
-<div
-  (click)="toggleStats(true)"
-  class="cursor-pointer text-2xl font-['Games'] text-yellow-400"
->
-  {{ user.username }}
-</div>
-
-<ng-container *ngIf="showStats === true">
-  <div class="rounded absolute p-4 top-1 bg-white top-14 grid grid-2">
-    <div class="">
-      <span class="font-bold">Regular Score</span> {{ user.regularScore }}
+<ng-container class="absolute" *ngIf="showStats">
+  <div
+    class="text-[16px] text-black rounded absolute w-[200px] grid items-center p-4 bg-gray-100"
+    [ngClass]="popoverStylesMobile ? 'top-8' : 'top-0 left-[10rem]'"
+  >
+    <div class="flex justify-end">
+      <fa-icon
+        class="cursor-pointer"
+        (click)="closePopover()"
+        size="lg"
+        [icon]="faIcon"
+      ></fa-icon>
     </div>
     <div class="">
-      <span class="font-bold">Strict Score</span> {{ user.strictScore }}
+      <span class="font-bold">Regular Score:</span> {{ user.regularScore }}
+    </div>
+    <div class="">
+      <span class="font-bold">Strict Score:</span> {{ user.strictScore }}
     </div>
   </div>
 </ng-container>

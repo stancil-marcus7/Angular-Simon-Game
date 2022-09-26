@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { GamePattern } from 'src/interfaces/gamePattern';
+import { GamePattern } from 'src/app/interfaces/gamePattern';
 
 export const selectGamePattern =
   createFeatureSelector<GamePattern>('gamePatterns');

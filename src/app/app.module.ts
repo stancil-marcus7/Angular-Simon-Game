@@ -1,6 +1,7 @@
+import { GameScoresModalService } from './services/behavior-subject-services/game-scores.service';
 import { GamePatternService } from './services/behavior-subject-services/gamePattern.service';
 import { UserService } from './services/behavior-subject-services/user.service';
-import { OpenSignInModalService } from './services/behavior-subject-services/sign-in.service';
+import { SignInModalService } from './services/behavior-subject-services/sign-in-modal.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,8 +18,13 @@ import { gamePatternReducer } from './gamePattern/reducers/gamePattern.reducer';
 import { ModeToggleComponent } from './mode-toggle/mode-toggle.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserPopoverComponent } from './user-popover/user-popover.component';
+import { AuthInterceptor } from 'src/app/interceptors/auth-interceptor';
+import { LogOutComponent } from './log-out/log-out.component';
+import { ScoresModalComponent } from './scores-modal/scores-modal.component';
+import { UserPopoverService } from './services/behavior-subject-services/user-popover-service';
+import { BackgroundColorsService } from './services/behavior-subject-services/backgroundColors.services';
 
 @NgModule({
   declarations: [
@@ -30,6 +36,8 @@ import { UserPopoverComponent } from './user-popover/user-popover.component';
     ModeToggleComponent,
     SidebarComponent,
     UserPopoverComponent,
+    LogOutComponent,
+    ScoresModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +50,19 @@ import { UserPopoverComponent } from './user-popover/user-popover.component';
     HttpClientModule,
     StoreModule.forRoot({ gamePatterns: gamePatternReducer }),
   ],
-  providers: [OpenSignInModalService, UserService, GamePatternService],
+  providers: [
+    GameScoresModalService,
+    SignInModalService,
+    UserService,
+    GamePatternService,
+    UserPopoverService,
+    BackgroundColorsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -2,28 +2,61 @@
   *ngIf="!!isOpen"
   class="bg-indigo-900 font-['Games'] text-yellow-400 h-full shadow-md px-1 w-60 absolute {{
     isOpen
-  }}"
+  }} z-0"
 >
-  <ul class="relative">
-    <li (click)="onOpenSignInModal()" class="relative cursor-pointer">
+  <ul class="">
+    <li class="cursor-pointer">
       <div
-        class="flex gap-4 items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
+        class="flex gap-4 items-center text-sm h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
         data-mdb-ripple="true"
         data-mdb-ripple-color="dark"
       >
-        <div class="">Sign In</div>
-        <div class=""><fa-icon [icon]="faUserIcon"></fa-icon></div>
+        <ng-container *ngIf="!user.username; else UserPopover">
+          <button
+            (click)="onOpenSignInModal()"
+            class="cursor-pointer font-['Games'] text-yellow-400 flex gap-4 w-full px-4"
+          >
+            <div class="">Sign In</div>
+
+            <div class=""><fa-icon [icon]="faUserIcon"></fa-icon></div>
+          </button>
+        </ng-container>
+        <ng-template #UserPopover>
+          <button
+            class="w-full flex justify-start px-4"
+            (click)="openPopover()"
+          >
+            {{ user.username }}
+          </button>
+        </ng-template>
       </div>
     </li>
-    <li class="relative cursor-pointer">
+    <li class="cursor-pointer">
       <div
-        class="flex gap-4 items-center text-sm py-4 px-6 h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
+        class="flex gap-4 items-center text-sm h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
         data-mdb-ripple="true"
         data-mdb-ripple-color="dark"
       >
-        <div class="">Scoreboard</div>
-        <div class=""><fa-icon [icon]="faTableIcon"></fa-icon></div>
+        <button
+          (click)="openGameScoresModalState()"
+          class="font-['Games'] text-yellow-400 flex flex-start gap-4 w-full px-4"
+        >
+          <div class="">Scoreboard</div>
+          <div class=""><fa-icon [icon]="faTableIcon"></fa-icon></div>
+        </button>
       </div>
     </li>
+    <ng-template [ngIf]="user.username">
+      <li class="cursor-pointer">
+        <div
+          class="flex gap-4 items-center text-sm h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
+          data-mdb-ripple="true"
+          data-mdb-ripple-color="dark"
+        >
+          <app-log-out></app-log-out>
+        </div>
+      </li>
+    </ng-template>
   </ul>
+  <app-user-popover class="w-full"></app-user-popover>
 </div>

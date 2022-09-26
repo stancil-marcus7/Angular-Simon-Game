@@ -1,4 +1,4 @@
-<div class="bg-indigo-900 shadow-lg">
+<div class="bg-indigo-900 shadow-lg relative">
   <div
     class="flex gap-4 sm:justify-between w-3/4 mx-auto py-4 items-center flex-col sm:flex-row"
   >
@@ -10,25 +10,30 @@
     </div>
     <ng-container *ngIf="addSideBarButton; else SideBarButton">
       <div
-        class="flex flex-col sm:flex-row gap-6 text-center sm:text-left sm:mx-0"
+        class="flex flex-col sm:flex-row gap-6 text-center sm:text-left sm:mx-0 text-2xl font-['Games'] text-yellow-400"
       >
         <ng-container *ngIf="!user.username; else UserPopover">
-          <button
-            (click)="openSignInModal()"
-            class="cursor-pointer text-2xl font-['Games'] text-yellow-400 flex gap-4"
-          >
+          <button (click)="openSignInModal()" class="cursor-pointer flex gap-4">
             <div class="">Sign In</div>
-
             <div class=""><fa-icon [icon]="faUserIcon"></fa-icon></div>
           </button>
         </ng-container>
         <ng-template #UserPopover>
-          <app-user-popover></app-user-popover>
+          <div class="relative">
+            <button (click)="openUserPopover()">{{ user.username }}</button>
+            <app-user-popover></app-user-popover>
+          </div>
         </ng-template>
-        <button class="text-2xl font-['Games'] text-yellow-400 flex gap-4">
+        <button
+          (click)="openGameScoresModalState()"
+          class="text-2xl font-['Games'] text-yellow-400 flex gap-4"
+        >
           <div class="">Scoreboard</div>
           <div class=""><fa-icon [icon]="faTableIcon"></fa-icon></div>
         </button>
+        <ng-template [ngIf]="user.username">
+          <app-log-out></app-log-out>
+        </ng-template>
       </div>
     </ng-container>
     <ng-template #SideBarButton>
@@ -43,4 +48,5 @@
     </ng-template>
   </div>
 </div>
+
 <app-sidebar [isOpen]="isOpen"></app-sidebar>

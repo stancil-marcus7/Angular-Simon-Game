@@ -15,6 +15,6 @@ phases:
       - ng build --prod
   post_build:
     commands:
-      - cd dist/simon-game-frontend
+      - cd dist/simon-game
       - ls -la
       - aws s3 sync . s3://simon-game-frontend --delete

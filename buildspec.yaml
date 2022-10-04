@@ -16,6 +16,6 @@ phases:
   post_build:
     commands:
       - cd dist/simon-game
-  artifacts:
-    files:
-      - "**/*"
+artifacts:
+  files:
+    - "**/*"

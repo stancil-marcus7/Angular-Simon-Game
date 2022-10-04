@@ -12,12 +12,10 @@ phases:
   build:
     commands:
       - echo build process started now
-      - ng build
+      - ng build --production
   post_build:
     commands:
       - cd dist/simon-game
-      - ls -la
-      - aws s3 sync . s3://simon-game-frontend --delete
 artifacts:
   files:
     - "**/*"

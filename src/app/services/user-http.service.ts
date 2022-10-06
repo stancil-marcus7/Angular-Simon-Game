@@ -13,7 +13,7 @@ import * as _ from 'lodash';
   providedIn: 'root',
 })
 export class UserHTTPService {
-  apiURL = 'http://localhost:3000';
+  apiURL = 'https://simon-game-backend.marcus-web-apps.com';
 
   httpOptions = {
     headers: new HttpHeaders({

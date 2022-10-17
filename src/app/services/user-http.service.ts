@@ -146,7 +146,7 @@ export class UserHTTPService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    console.error(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

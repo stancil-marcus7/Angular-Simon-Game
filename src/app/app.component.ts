@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
   userRegularScore: number = 0;
   userStrictScore: number = 0;
   username: string = '';
-  backgroundColor: string = '';
+  backgroundColorsCorrect: boolean = true;
+  backgroundColor: string = 'bg-indigo-800';
 
   constructor(
     private gamePatternService: GamePatternService,
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
     });
 
     this.backgroundColorsService.data.subscribe((message) => {
-      this.backgroundColor = message.mainBackgroundColor;
+      this.backgroundColorsCorrect = message;
     });
   }
 
@@ -104,6 +105,22 @@ export class AppComponent implements OnInit {
     } else {
       this.showPattern();
     }
+
+    this.backgroundColorsService.setBackgroundColorState(false);
+    setTimeout(
+      () => this.backgroundColorsService.setBackgroundColorState(true),
+      1000
+    );
+  }
+
+  get getBackgroundColor(): string {
+    if (this.backgroundColorsCorrect) {
+      this.backgroundColor = 'bg-indigo-800';
+    } else {
+      this.backgroundColor = 'bg-red-800';
+    }
+
+    return this.backgroundColor;
   }
 
   initializeGame(): void {

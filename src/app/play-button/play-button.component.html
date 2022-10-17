@@ -1,7 +1,10 @@
 <div class="mt-8">
   <div class="text-center text-yellow-400 m-0 font-['Games'] mx-auto">
     <ng-container *ngIf="!level; else DoYourBest">
-      <button class="cursor-pointer inline sm:text-8xl text-4xl my-4">
+      <button
+        (click)="scroll()"
+        class="cursor-pointer inline sm:text-8xl text-4xl my-4"
+      >
         Play
       </button>
     </ng-container>
@@ -11,7 +14,7 @@
           [disabled]="level"
           class="cursor-pointer inline sm:text-8xl text-4xl"
         >
-          Do Your Best!
+          {{ getMessage }}
         </button>
         <div class="text-6xl">Level {{ level }}</div>
       </div>

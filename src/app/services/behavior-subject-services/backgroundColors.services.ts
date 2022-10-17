@@ -4,25 +4,12 @@ import { BackgroundColors } from 'src/app/interfaces/backgroundColors';
 
 @Injectable()
 export class BackgroundColorsService {
-  private dataSource = new BehaviorSubject<BackgroundColors>({
-    mainBackgroundColor: 'bg-indigo-800',
-    navbarColor: 'bg-indigo-900',
-  });
+  private dataSource = new BehaviorSubject<boolean>(true);
   data = this.dataSource.asObservable();
 
   constructor() {}
 
-  setBackgroundColorState(correct: boolean) {
-    if (correct) {
-      this.dataSource.next({
-        mainBackgroundColor: 'bg-indigo-800',
-        navbarColor: 'bg-indigo-900',
-      });
-    } else {
-      this.dataSource.next({
-        mainBackgroundColor: 'bg-red-700',
-        navbarColor: 'bg-red-800',
-      });
-    }
+  setBackgroundColorState(val: boolean) {
+    this.dataSource.next(val);
   }
 }

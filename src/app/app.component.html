@@ -1,4 +1,10 @@
-<div class="bg-indigo-800">
+<div
+  [ngClass]="{
+    'bg-indigo-800': backgroundColorsCorrect,
+    'bg-red-700': !backgroundColorsCorrect
+  }"
+  class="pb-4"
+>
   <app-navbar></app-navbar>
   <app-sign-in-modal></app-sign-in-modal>
   <app-scores-modal></app-scores-modal>
@@ -9,7 +15,10 @@
     <app-mode-toggle></app-mode-toggle>
     <button class="sm:text-4xl text-2xl" (click)="resetGame()">Reset</button>
   </div>
-  <div class="w-3/4 mx-auto bg-indigo-900 rounded-lg p-8 shadow-md">
+  <div
+    id="buttons"
+    class="w-3/4 mx-auto bg-indigo-900 rounded-lg p-8 shadow-md"
+  >
     <div class="grid sm:grid-rows-3 gap-4">
       <div class="flex justify-center">
         <app-button

@@ -183,7 +183,6 @@ export class AppComponent implements OnInit {
         this.selectedColor = this.gamePattern[x];
         _.delay(() => {
           this.selectedColor = '';
-          this.playStatus = false;
         }, 300);
       } else {
         this.selectedColor = '';

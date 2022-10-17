@@ -172,19 +172,21 @@ export class AppComponent implements OnInit {
   }
 
   showPattern() {
+    this.selectedColor = '';
     const intervalCount = interval(1000);
     const takeNumberOfEntries = intervalCount
       .pipe(take(this.gamePattern.length + 1))
       .pipe();
+
     this.playStatus = true;
     takeNumberOfEntries.subscribe((x) => {
       if (this.gamePattern[x]) {
         this.selectedColor = this.gamePattern[x];
         _.delay(() => {
           this.selectedColor = '';
+          this.playStatus = false;
         }, 300);
       } else {
-        console.log('disabled');
         this.selectedColor = '';
         this.playStatus = false;
       }

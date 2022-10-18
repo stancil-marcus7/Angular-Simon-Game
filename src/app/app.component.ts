@@ -1,7 +1,7 @@
 import { BackgroundColorsService } from './services/behavior-subject-services/backgroundColors.services';
 import { BackgroundColors } from './interfaces/backgroundColors';
 import { UserHTTPService } from './services/user-http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { interval, take } from 'rxjs';
 import * as _ from 'lodash';
 import 'tw-elements';
@@ -172,6 +172,7 @@ export class AppComponent implements OnInit {
   }
 
   showPattern() {
+    const el: HTMLElement | null = document.getElementById('appDiv');
     const intervalCount = interval(1000);
     const takeNumberOfEntries = intervalCount
       .pipe(take(this.gamePattern.length + 1))
@@ -189,7 +190,7 @@ export class AppComponent implements OnInit {
         this.playStatus = false;
       }
     });
-    this.selectedColor = '';
+    el?.click();
   }
 
   checkIfPatternLengthsAreEqual(): boolean {

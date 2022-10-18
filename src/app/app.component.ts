@@ -173,6 +173,7 @@ export class AppComponent implements OnInit {
 
   showPattern() {
     const el: HTMLElement | null = document.getElementById('appDiv');
+    el?.click();
     const intervalCount = interval(1000);
     const takeNumberOfEntries = intervalCount
       .pipe(take(this.gamePattern.length + 1))
@@ -190,7 +191,6 @@ export class AppComponent implements OnInit {
         this.playStatus = false;
       }
     });
-    el?.click();
   }
 
   checkIfPatternLengthsAreEqual(): boolean {

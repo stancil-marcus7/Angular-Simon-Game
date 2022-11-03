@@ -1,3 +1,4 @@
+import { UsersService } from './services/behavior-subject-services/users.service';
 import { GameScoresModalService } from './services/behavior-subject-services/game-scores.service';
 import { GamePatternService } from './services/behavior-subject-services/gamePattern.service';
 import { UserService } from './services/behavior-subject-services/user.service';
@@ -57,6 +58,7 @@ import { BackgroundColorsService } from './services/behavior-subject-services/ba
     GamePatternService,
     UserPopoverService,
     BackgroundColorsService,
+    UsersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

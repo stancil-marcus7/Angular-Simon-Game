@@ -1,9 +1,9 @@
 <button
-  class="rounded-full border-8 border-black md:w-40 md:h-40 sm:w-32 sm:h-32 w-24 h-24 active:translate-y-0.5 active:shadow-md hover:shadow-[0_0_100px_1px_rgba(255,255,255,.4)] pointer-events-auto"
+  class="rounded-full border-8 border-black md:w-40 md:h-40 sm:w-32 sm:h-32 w-24 h-24 active:translate-y-0.5 active:shadow-md"
   [ngStyle]="{ 'background-color': color }"
   [disabled]="disabled"
   [ngClass]="{
     'shadow-[0_0_100px_1px_rgba(255,255,255,.4)]': getSelectedColorStatus(),
-    'hover:shadow-[0_0_100px_1px_rgba(255,255,255,.4)]': !disabled
+    'sm:hover:shadow-[0_0_100px_1px_rgba(255,255,255,.4)]': !disabled
   }"
 ></button>

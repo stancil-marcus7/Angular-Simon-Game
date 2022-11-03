@@ -1,9 +1,10 @@
 <div
   *ngIf="clicked.length"
-  class="bg-white p-8 sm:w-[600px] w-full absolute left-1/2 top-1/2 modal modal-body rounded-md z-20 flex flex-col gap-4 grid {{
+  class="bg-white p-8 sm:w-[600px] w-full absolute left-1/2 top-1/2 modal modal-body rounded-md z-20 flex flex-col gap-4 {{
     clicked
   }}"
 >
+  <div class="flex justify-center font-['Games'] text-2xl">Scoreboard</div>
   <div class="flex justify-end">
     <fa-icon
       class="cursor-pointer"
@@ -12,22 +13,32 @@
       [icon]="faIcon"
     ></fa-icon>
   </div>
-  <div *ngIf="users.length" class="">
-    <table class="table-fixed w-full border-collapse border border-black">
-      <thead>
-        <tr>
-          <td class="{{ tableCellStyles }}">Username</td>
-          <td class="{{ tableCellStyles }}">Regular Score</td>
-          <td class="{{ tableCellStyles }}">User Score</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td class="{{ tableCellStyles }} break-words">{{ user.username }}</td>
-          <td class="{{ tableCellStyles }} ">{{ user.regularScore }}</td>
-          <td class="{{ tableCellStyles }}">{{ user.strictScore }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ng-container
+    *ngIf="users.length; then thenTemplate; else elseTemplate"
+  ></ng-container>
+  <ng-template #thenTemplate>
+    <div *ngIf="users.length" class="">
+      <table class="table-fixed w-full border-collapse border border-black">
+        <thead>
+          <tr>
+            <td class="{{ tableCellStyles }}">Username</td>
+            <td class="{{ tableCellStyles }}">Regular Score</td>
+            <td class="{{ tableCellStyles }}">User Score</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td class="{{ tableCellStyles }} break-words">
+              {{ user.username }}
+            </td>
+            <td class="{{ tableCellStyles }} ">{{ user.regularScore }}</td>
+            <td class="{{ tableCellStyles }}">{{ user.strictScore }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+  <ng-template #elseTemplate>
+    <div class="text-center">...No scores yet</div>
+  </ng-template>
 </div>

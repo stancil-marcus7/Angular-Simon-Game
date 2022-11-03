@@ -1,3 +1,4 @@
+import { UsersService } from './../services/behavior-subject-services/users.service';
 import { UserHTTPService } from './../services/user-http.service';
 import { GameScoresModalService } from './../services/behavior-subject-services/game-scores.service';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +21,7 @@ export class ScoresModalComponent implements OnInit {
 
   constructor(
     private gameScoresModalService: GameScoresModalService,
-    private userHttpService: UserHTTPService
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +31,8 @@ export class ScoresModalComponent implements OnInit {
       }
     );
 
-    this.userHttpService.getUsers().subscribe((message) => {
-      this.getUsers(message);
+    this.usersService.data.subscribe((message) => {
+      this.setUsers(message);
     });
   }
 
@@ -42,7 +43,7 @@ export class ScoresModalComponent implements OnInit {
     }, 500);
   }
 
-  getUsers(users: User[]): void {
+  setUsers(users: User[]): void {
     this.users = users;
   }
 }

@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import 'tw-elements';
 import { GamePatternService } from './services/behavior-subject-services/gamePattern.service';
 import { UserService } from './services/behavior-subject-services/user.service';
+import { UsersService } from './services/behavior-subject-services/users.service';
 
 const colorsArray: string[] = ['red', 'blue', 'green', 'yellow'];
 
@@ -33,7 +34,8 @@ export class AppComponent implements OnInit {
     private gamePatternService: GamePatternService,
     private userService: UserService,
     private userHttpService: UserHTTPService,
-    private backgroundColorsService: BackgroundColorsService
+    private backgroundColorsService: BackgroundColorsService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
@@ -169,6 +171,9 @@ export class AppComponent implements OnInit {
         );
       }
     }
+    this.userHttpService.getUsers().subscribe((message) => {
+      this.usersService.setUsers(message);
+    });
   }
 
   showPattern() {

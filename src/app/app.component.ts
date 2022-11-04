@@ -63,6 +63,10 @@ export class AppComponent implements OnInit {
     this.backgroundColorsService.data.subscribe((message) => {
       this.backgroundColorsCorrect = message;
     });
+
+    this.userHttpService.getUsers().subscribe((message) => {
+      this.usersService.setUsers(message);
+    });
   }
 
   addNewColorToUserPattern(color: string): void {

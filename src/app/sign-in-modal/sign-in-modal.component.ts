@@ -120,7 +120,7 @@ export class SignInModalComponent implements OnInit, OnDestroy {
   }
 
   get signUpModalReTypePasswordErrors() {
-    if (this.signUpForm.controls['reTypePassword'].errors) {
+    if (this.signUpForm.controls['reTypePassword'].errors && this.signUp) {
       return true;
     }
     return false;

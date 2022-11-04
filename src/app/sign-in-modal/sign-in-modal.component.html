@@ -85,7 +85,9 @@
         <div class="grid">
           <span
             class="text-rose-600"
-            *ngIf="submitClicked && signUpForm.controls['password'].errors"
+            *ngIf="
+              signUp && submitClicked && signUpForm.controls['password'].errors
+            "
             >Password does not match requirements</span
           >
           <label for="Password">Password</label>

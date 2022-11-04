@@ -98,7 +98,6 @@ export class UserHTTPService {
     const newUser = this.http
       .get<User>(`${this.apiURL}/users/profile`, this.httpOptions)
       .pipe(retry(1), catchError(this.handleError));
-    console.log('newUser', newUser);
     return newUser;
   }
 
@@ -114,7 +113,6 @@ export class UserHTTPService {
 
   updateRegularScore(regularScore: number) {
     const user = this.userService.returnCurrentValue();
-    console.log('regularScore', regularScore);
     try {
       this.updateUserScores({
         ...user,

@@ -46,7 +46,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 .add(message.refresh_token_expiration, 'second')
                 .toString()
             );
-            console.log('getToken', message.refresh_token);
             cloned = req.clone({
               headers: req.headers.set(
                 'Authorization',

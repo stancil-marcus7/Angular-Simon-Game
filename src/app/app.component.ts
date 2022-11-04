@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const bearerToken = localStorage.getItem('access_token');
     if (bearerToken) {
-      console.log('bearerToken', bearerToken);
       this.userHttpService
         .getUser()
         .subscribe((user) => this.userService.setUser(user));
@@ -106,7 +105,6 @@ export class AppComponent implements OnInit {
   handleWrongAnswer() {
     this.gamePatternService.emptyUserPattern();
     if (this.strictMode) {
-      console.log('this.strictMode', this.strictMode);
       this.resetGame();
     } else {
       this.showPattern();
@@ -134,7 +132,6 @@ export class AppComponent implements OnInit {
     this.addNewColorToGamePattern();
     this.gamePatternService.updateLevel();
     this.showPattern();
-    console.log('gamePattern', this.gamePattern);
   }
 
   resetGame(): void {

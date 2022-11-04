@@ -146,7 +146,9 @@ export class UserHTTPService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.error(errorMessage);
+    if (errorMessage.includes('auth/login')) {
+      window.alert('Login unsuccessful, please check username and password');
+    }
     return throwError(() => {
       return errorMessage;
     });

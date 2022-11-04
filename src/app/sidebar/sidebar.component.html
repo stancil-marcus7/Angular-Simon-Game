@@ -2,7 +2,7 @@
   *ngIf="!!isOpen"
   class="bg-indigo-900 font-['Games'] text-yellow-400 h-full shadow-md px-1 w-60 absolute {{
     isOpen
-  }} z-0 mt-[-5%]"
+  }} z-0 mt-[-1%]"
 >
   <ul class="">
     <li class="cursor-pointer">
@@ -14,7 +14,7 @@
         <ng-container *ngIf="!user.username; else UserPopover">
           <button
             (click)="onOpenSignInModal()"
-            class="cursor-pointer font-['Games'] text-yellow-400 flex gap-4 w-full px-4"
+            class="cursor-pointer font-['Games'] text-yellow-400 flex gap-4 w-full h-full items-center px-4"
           >
             <div class="">Sign In</div>
 
@@ -23,7 +23,7 @@
         </ng-container>
         <ng-template #UserPopover>
           <button
-            class="w-full flex justify-start px-4"
+            class="w-full flex justify-start px-4 h-full items-center"
             (click)="openPopover()"
           >
             {{ user.username }}
@@ -39,7 +39,7 @@
       >
         <button
           (click)="openGameScoresModalState()"
-          class="font-['Games'] text-yellow-400 flex flex-start gap-4 w-full px-4"
+          class="font-['Games'] text-yellow-400 flex flex-start gap-4 w-full px-4 h-full items-center"
         >
           <div class="">Scoreboard</div>
           <div class=""><fa-icon [icon]="faTableIcon"></fa-icon></div>
@@ -53,7 +53,7 @@
           data-mdb-ripple="true"
           data-mdb-ripple-color="dark"
         >
-          <app-log-out></app-log-out>
+          <app-log-out class="h-full w-full"></app-log-out>
         </div>
       </li>
     </ng-template>

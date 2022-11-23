@@ -40,7 +40,6 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('open', this._isOpen);
     this.subscription = this.signInService.data.subscribe((message: string) => {
       this.clicked = message;
     });

@@ -40,13 +40,7 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe(['(min-width: 640px)'])
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this._isOpen = 'sideBarSlideOut';
-        }
-      });
+    console.log('open', this._isOpen);
     this.subscription = this.signInService.data.subscribe((message: string) => {
       this.clicked = message;
     });
